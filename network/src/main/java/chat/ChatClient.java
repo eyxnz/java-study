@@ -28,13 +28,13 @@ public class ChatClient {
 
             // 4. reader/writer 생성
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream(), UTF_8));
-            PrintWriter printWriter = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), UTF_8),true);
+            PrintWriter pw = new PrintWriter(new OutputStreamWriter(socket.getOutputStream(), UTF_8),true);
 
             // 5. join 프로토콜
             System.out.print("닉네임 >> ");
             String nickname = scanner.nextLine();
-            printWriter.println("join:" + nickname);
-            printWriter.flush();
+            pw.println("join:" + nickname);
+            pw.flush();
 
             // 6. ChatClientThead 시작
             new ChatClientThread(socket, br).start();
@@ -45,10 +45,10 @@ public class ChatClient {
                 String input = scanner.nextLine();
 
                 if("quit".equals(input)) {
-                    printWriter.println("quit:" + nickname);
+                    pw.println("quit:" + nickname);
                     break;
                 } else {
-                    printWriter.println("message:" + input);
+                    pw.println("message:" + input);
                 }
             }
         } catch(SocketException e) {
